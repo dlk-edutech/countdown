@@ -27,19 +27,18 @@
 
         /* 
          * FLIP CARD STYLES 
-         * We use percentages and flexbox to make the cards completely responsive
-         * to Tailwind's width/height classes.
+         * Using relative positioning and flexbox to scale with Tailwind sizing.
          */
         .flip-card {
             position: relative;
             perspective: 1000px;
             font-family: 'Roboto Mono', monospace;
-            background-color: #18181b; /* Zinc 900 base */
+            background-color: #18181b; /* Zinc 900 */
             border-radius: 0.5rem;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.8), 0 8px 10px -6px rgba(0, 0, 0, 0.8);
         }
 
-        /* The dividing line in the middle of the mechanical clock */
+        /* The horizontal divider in the middle */
         .flip-card::after {
             content: "";
             position: absolute;
@@ -47,11 +46,12 @@
             left: 0;
             width: 100%;
             height: 2px;
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(0, 0, 0, 0.7);
             margin-top: -1px;
             z-index: 10;
         }
 
+        /* Half-card styling for the fold effect */
         .half {
             position: absolute;
             left: 0;
@@ -75,11 +75,7 @@
             transform-origin: top;
         }
 
-        /* 
-         * The span inside is 200% the height of the half, 
-         * making it the exact height of the full card.
-         * This ensures text stays perfectly centered across the fold.
-         */
+        /* The text spans 200% of the half-card height to center properly */
         .half span {
             position: absolute;
             left: 0;
@@ -94,7 +90,7 @@
         .half.top span { top: 0; }
         .half.bottom span { bottom: 0; }
 
-        /* Animation classes for the flip effect */
+        /* Animation classes */
         .top-flip {
             z-index: 2;
             animation: flipTop 0.4s ease-in forwards;
@@ -108,15 +104,14 @@
 
         @keyframes flipTop {
             0% { transform: rotateX(0deg); filter: brightness(1); }
-            100% { transform: rotateX(-90deg); filter: brightness(0.5); }
+            100% { transform: rotateX(-90deg); filter: brightness(0.4); }
         }
 
         @keyframes flipBottom {
-            0% { transform: rotateX(90deg); filter: brightness(0.5); }
+            0% { transform: rotateX(90deg); filter: brightness(0.4); }
             100% { transform: rotateX(0deg); filter: brightness(1); }
         }
 
-        /* Glow effect on inputs */
         input:focus {
             outline: none;
             box-shadow: 0 0 0 2px #3b82f6; /* Blue 500 */
@@ -124,11 +119,11 @@
     </style>
 </head>
 
-<body class="min-h-screen relative flex flex-col items-center justify-center p-4 pb-16 bg-gradient-to-br from-zinc-900 to-black">
+<body class="min-h-screen relative flex flex-col items-center justify-center p-4 pb-20 bg-gradient-to-br from-zinc-900 to-black">
     
-    <div class="max-w-4xl w-full flex flex-col items-center gap-10">
+    <div class="max-w-4xl w-full flex flex-col items-center gap-10 z-10">
         
-        <!-- Header Section -->
+        <!-- Header -->
         <div class="text-center space-y-3">
             <h1 class="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
                 Đếm Ngược Thời Gian
@@ -136,7 +131,7 @@
             <p class="text-zinc-400 text-sm md:text-base">Nhập một mốc thời gian trong tương lai để bắt đầu</p>
         </div>
 
-        <!-- Input Section -->
+        <!-- Inputs & Control -->
         <div class="flex flex-col sm:flex-row items-center gap-4 bg-zinc-800/50 p-6 rounded-2xl border border-zinc-700/50 backdrop-blur-sm w-full max-w-lg">
             <input 
                 type="text" 
@@ -152,62 +147,58 @@
             </button>
         </div>
 
-        <!-- Countdown Display Section -->
-        <div class="flex flex-wrap items-center justify-center gap-4 md:gap-6 w-full">
+        <!-- Countdown Displays -->
+        <div class="flex flex-wrap items-center justify-center gap-3 md:gap-6 w-full">
             
-            <!-- Months Card -->
             <div class="flex flex-col items-center gap-3">
-                <div id="card-months" class="flip-card w-16 h-24 md:w-24 md:h-36 text-4xl md:text-6xl font-bold"></div>
-                <span class="text-xs md:text-sm font-medium text-zinc-400 uppercase tracking-wider">Tháng</span>
+                <div id="card-months" class="flip-card w-14 h-20 md:w-24 md:h-36 text-3xl md:text-6xl font-bold"></div>
+                <span class="text-[10px] md:text-sm font-medium text-zinc-400 uppercase tracking-wider">Tháng</span>
             </div>
 
-            <!-- Days Card -->
             <div class="flex flex-col items-center gap-3">
-                <div id="card-days" class="flip-card w-16 h-24 md:w-24 md:h-36 text-4xl md:text-6xl font-bold"></div>
-                <span class="text-xs md:text-sm font-medium text-zinc-400 uppercase tracking-wider">Ngày</span>
+                <div id="card-days" class="flip-card w-14 h-20 md:w-24 md:h-36 text-3xl md:text-6xl font-bold"></div>
+                <span class="text-[10px] md:text-sm font-medium text-zinc-400 uppercase tracking-wider">Ngày</span>
             </div>
 
-            <!-- Hours Card -->
             <div class="flex flex-col items-center gap-3">
-                <div id="card-hours" class="flip-card w-16 h-24 md:w-24 md:h-36 text-4xl md:text-6xl font-bold"></div>
-                <span class="text-xs md:text-sm font-medium text-zinc-400 uppercase tracking-wider">Giờ</span>
+                <div id="card-hours" class="flip-card w-14 h-20 md:w-24 md:h-36 text-3xl md:text-6xl font-bold"></div>
+                <span class="text-[10px] md:text-sm font-medium text-zinc-400 uppercase tracking-wider">Giờ</span>
             </div>
 
-            <!-- Minutes Card -->
             <div class="flex flex-col items-center gap-3">
-                <div id="card-minutes" class="flip-card w-16 h-24 md:w-24 md:h-36 text-4xl md:text-6xl font-bold"></div>
-                <span class="text-xs md:text-sm font-medium text-zinc-400 uppercase tracking-wider">Phút</span>
+                <div id="card-minutes" class="flip-card w-14 h-20 md:w-24 md:h-36 text-3xl md:text-6xl font-bold"></div>
+                <span class="text-[10px] md:text-sm font-medium text-zinc-400 uppercase tracking-wider">Phút</span>
             </div>
 
-            <!-- Seconds Card -->
             <div class="flex flex-col items-center gap-3">
-                <div id="card-seconds" class="flip-card w-16 h-24 md:w-24 md:h-36 text-4xl md:text-6xl font-bold"></div>
-                <span class="text-xs md:text-sm font-medium text-zinc-400 uppercase tracking-wider">Giây</span>
+                <div id="card-seconds" class="flip-card w-14 h-20 md:w-24 md:h-36 text-3xl md:text-6xl font-bold"></div>
+                <span class="text-[10px] md:text-sm font-medium text-zinc-400 uppercase tracking-wider">Giây</span>
             </div>
 
         </div>
 
-        <!-- Completion Message (Hidden by default) -->
-        <div id="message-box" class="hidden px-6 py-4 bg-green-500/20 border border-green-500/30 text-green-400 rounded-xl font-medium text-center animate-pulse">
+        <!-- Alert Message -->
+        <div id="message-box" class="hidden w-full max-w-lg px-6 py-4 bg-green-500/20 border border-green-500/30 text-green-400 rounded-xl font-medium text-center animate-pulse">
             Đã đến thời gian đích!
         </div>
 
     </div>
 
-    <footer class="absolute bottom-6 w-full left-0 text-center text-zinc-500/80 text-sm font-medium tracking-wide">
-        &copy; Dlk edu tech - - Phát triển bởi tranhongdan@tranphudlk.edu.vn
+    <!-- Footer Section -->
+    <footer class="absolute bottom-6 w-full left-0 text-center text-zinc-500/80 text-xs md:text-sm font-medium tracking-wide px-4 z-0">
+        Dlk Edu Tech - Phát triển bởi tranhongdan@tranphudlk.edu.vn
     </footer>
 
     <script>
         let intervalId = null;
         let targetDate = null;
         let fpInstance = null;
+        const STORAGE_KEY = 'countdownTargetTime';
 
-        // Function to initialize empty flip cards on load
+        // Pre-fill cards with 00
         function initFlipCards() {
             const cards = document.querySelectorAll('.flip-card');
             cards.forEach(card => {
-                // Set default structure without animation
                 card.innerHTML = `
                     <div class="half top"><span>00</span></div>
                     <div class="half bottom"><span>00</span></div>
@@ -216,23 +207,14 @@
             });
         }
 
-        // Function to render the flip animation for a specific card
+        // Render card flip animation if value changed
         function renderFlipCard(element, newValue) {
-            // Format number to always be 2 digits
             const newStr = String(newValue).padStart(2, '0');
             const currentStr = element.getAttribute('data-value') || '00';
 
-            // Only animate if the number actually changed
             if (newStr === currentStr) return;
 
-            // Update the stored value
             element.setAttribute('data-value', newStr);
-
-            // Rebuild inner HTML to trigger CSS animations
-            // top = new value (revealed when old top falls)
-            // bottom = old value (covered when new bottom falls)
-            // top-flip = old value falling down
-            // bottom-flip = new value falling down
             element.innerHTML = `
                 <div class="half top"><span>${newStr}</span></div>
                 <div class="half bottom"><span>${currentStr}</span></div>
@@ -241,75 +223,64 @@
             `;
         }
 
-        // Function to calculate exact time difference
+        // Compute remaining time considering month/day variances
         function calculateDiff(futureDate) {
             const now = new Date();
             const diffMs = futureDate.getTime() - now.getTime();
 
-            // Return all zeros if time has passed
             if (diffMs <= 0) {
                 return { isFinished: true, m: 0, d: 0, h: 0, min: 0, s: 0 };
             }
 
-            // Calculate exact units by cascading differences
             let m = futureDate.getMonth() - now.getMonth() + (12 * (futureDate.getFullYear() - now.getFullYear()));
             let d = futureDate.getDate() - now.getDate();
             let h = futureDate.getHours() - now.getHours();
             let min = futureDate.getMinutes() - now.getMinutes();
             let s = futureDate.getSeconds() - now.getSeconds();
 
-            // Handle borrows (e.g., if seconds are negative, borrow 1 minute)
+            // Cascading borrows
             if (s < 0) { s += 60; min--; }
             if (min < 0) { min += 60; h--; }
             if (h < 0) { h += 24; d--; }
             if (d < 0) {
-                // Borrow days from the previous month
                 const prevMonth = new Date(futureDate.getFullYear(), futureDate.getMonth(), 0);
                 d += prevMonth.getDate();
                 m--;
             }
-            if (m < 0) { m = 0; } // Fail-safe constraint
+            if (m < 0) m = 0;
 
             return { isFinished: false, m, d, h, min, s };
         }
 
-        // Main timer tick function
+        // Timer Tick
         function updateCountdown() {
             if (!targetDate) return;
 
             const timeData = calculateDiff(targetDate);
 
-            // Update the UI via flip cards
             renderFlipCard(document.getElementById('card-months'), timeData.m);
             renderFlipCard(document.getElementById('card-days'), timeData.d);
             renderFlipCard(document.getElementById('card-hours'), timeData.h);
             renderFlipCard(document.getElementById('card-minutes'), timeData.min);
             renderFlipCard(document.getElementById('card-seconds'), timeData.s);
 
-            // Handle countdown finish
             if (timeData.isFinished) {
                 clearInterval(intervalId);
                 const messageBox = document.getElementById('message-box');
                 messageBox.classList.remove('hidden');
+                messageBox.classList.replace('bg-red-500/20', 'bg-green-500/20');
+                messageBox.classList.replace('border-red-500/30', 'border-green-500/30');
+                messageBox.classList.replace('text-red-400', 'text-green-400');
+                messageBox.innerText = "Đã đến thời gian đích!";
+                localStorage.removeItem(STORAGE_KEY); // Clear finished target
             }
         }
 
-        // Event listener for the start button
-        document.getElementById('start-btn').addEventListener('click', () => {
+        function startCountdown(dateObj) {
             const messageBox = document.getElementById('message-box');
             
-            if (!fpInstance || fpInstance.selectedDates.length === 0) {
-                // Show temporary error styling instead of ugly alert()
-                const inputEl = document.getElementById('target-time');
-                inputEl.classList.add('border-red-500');
-                setTimeout(() => inputEl.classList.remove('border-red-500'), 1500);
-                return;
-            }
-
-            targetDate = fpInstance.selectedDates[0];
-            
-            // Validation: Cannot select a past date
-            if (targetDate.getTime() <= new Date().getTime()) {
+            // Validate future date
+            if (dateObj.getTime() <= new Date().getTime()) {
                 messageBox.classList.remove('hidden');
                 messageBox.classList.replace('bg-green-500/20', 'bg-red-500/20');
                 messageBox.classList.replace('border-green-500/30', 'border-red-500/30');
@@ -318,31 +289,51 @@
                 return;
             }
 
-            // Reset UI for successful start
+            // Hide message box
             messageBox.classList.add('hidden');
-            messageBox.classList.replace('bg-red-500/20', 'bg-green-500/20');
-            messageBox.classList.replace('border-red-500/30', 'border-green-500/30');
-            messageBox.classList.replace('text-red-400', 'text-green-400');
-            messageBox.innerText = "Đã đến thời gian đích!";
-
-            // Clear any existing timer and start fresh
-            if (intervalId) clearInterval(intervalId);
             
-            // Immediate update to prevent 1-second lag, then start interval
-            updateCountdown();
-            intervalId = setInterval(updateCountdown, 1000);
+            targetDate = dateObj;
+            
+            // Save to localStorage
+            localStorage.setItem(STORAGE_KEY, targetDate.getTime().toString());
+
+            if (intervalId) clearInterval(intervalId);
+            updateCountdown(); // Call immediately
+            intervalId = setInterval(updateCountdown, 1000); // Tick every second
+        }
+
+        document.getElementById('start-btn').addEventListener('click', () => {
+            if (!fpInstance || fpInstance.selectedDates.length === 0) {
+                const inputEl = document.getElementById('target-time');
+                inputEl.classList.add('border-red-500');
+                setTimeout(() => inputEl.classList.remove('border-red-500'), 1500);
+                return;
+            }
+            startCountdown(fpInstance.selectedDates[0]);
         });
 
-        // Initialize the UI on page load
+        // Setup on load
         window.addEventListener('DOMContentLoaded', () => {
             initFlipCards();
             
-            // Initialize flatpickr to explicitly force 24h format and day/month/year layout
             fpInstance = flatpickr("#target-time", {
                 enableTime: true,
                 dateFormat: "d/m/Y H:i",
                 time_24hr: true
             });
+
+            // Restore from localStorage
+            const savedTime = localStorage.getItem(STORAGE_KEY);
+            if (savedTime) {
+                const savedDate = new Date(parseInt(savedTime, 10));
+                // Only auto-resume if the time is still in the future
+                if (savedDate.getTime() > new Date().getTime()) {
+                    fpInstance.setDate(savedDate);
+                    startCountdown(savedDate);
+                } else {
+                    localStorage.removeItem(STORAGE_KEY);
+                }
+            }
         });
     </script>
 </body>
